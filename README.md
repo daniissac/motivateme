@@ -1,12 +1,11 @@
 # MotivateMe: Daily Quotes
 
-MotivateMe is a simple, mobile-friendly Progressive Web App (PWA) that provides users with daily motivational quotes. The app fetches quotes from multiple API sources and displays a new quote each time the page is refreshed or clicked.
+MotivateMe is a simple, mobile-friendly Progressive Web App (PWA) that provides users with daily motivational quotes. The app displays a new quote each time the page is refreshed or clicked, pulling from a large collection of curated quotes.
 
 ## Features
 
-- Clean, responsive design that works well on both mobile and desktop devices
-- Pulls quotes from multiple API sources for variety
-- Caches quotes to reduce API calls and improve performance
+- Clean, minimalist design that works well on both mobile and desktop devices
+- Large collection of motivational quotes stored locally
 - Click anywhere on the page to load a new quote
 - Works offline after initial load thanks to PWA capabilities
 - Installable on mobile devices and desktops
@@ -25,13 +24,9 @@ MotivateMe is a simple, mobile-friendly Progressive Web App (PWA) that provides 
 - JavaScript (ES6+)
 - Progressive Web App (PWA) technologies
 
-## API Sources
+## Quote Collection
 
-- [Real Inspire API](https://api.realinspire.tech/v1/quotes/random)
-- [Zen Quotes API](https://zenquotes.io/)
-- [Quotable API](https://api.quotable.io/)
-- [Type.fit Quotes API](https://type.fit/api/quotes)
-
+The app uses a curated collection of over 10,000 motivational quotes stored in a local JSON file. This ensures fast loading times and offline functionality.
 
 ## Contributing
 
@@ -40,4 +35,3 @@ Contributions, issues, and feature requests are welcome. Feel free to check [iss
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
-
