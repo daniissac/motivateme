@@ -130,22 +130,4 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
         .then(registration => console.log('Service Worker registered'))
         .catch(error => console.log('Service Worker registration failed:', error));
-}}
-async function updateQuote() {
-    const { quote, author } = await getRandomQuote();
-    quoteElement.textContent = quote;
-    authorElement.textContent = author;
-}
-
-// Load a new quote on page load
-updateQuote();
-
-// Add click event listener to the document body
-document.body.addEventListener('click', updateQuote);
-
-// Register service worker
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-        .then(registration => console.log('Service Worker registered'))
-        .catch(error => console.log('Service Worker registration failed:', error));
 }
