@@ -23,11 +23,10 @@ MotivateMe is a simple, mobile-friendly Progressive Web App (PWA) that provides 
 - JavaScript (ES6+)
 - Progressive Web App (PWA) technologies
 
-## API Sources
 
-- [Type.fit Quotes API](https://type.fit/api/quotes)
+## API Source
+
 - [Quotable API](https://api.quotable.io/)
-- [ZenQuotes API](https://zenquotes.io/)
 
 ## Contributing
 

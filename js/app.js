@@ -1,17 +1,18 @@
 const quoteElement = document.getElementById('quote');
 const authorElement = document.getElementById('author');
 
-async function getQuoteFromTypeFit() {
-    try {
-        const response = await fetch('https://type.fit/api/quotes');
-        const data = await response.json();
-        const randomQuote = data[Math.floor(Math.random() * data.length)];
-        return { quote: randomQuote.text, author: randomQuote.author || 'Unknown' };
-    } catch (error) {
-        console.error('Error fetching quote from Type.fit:', error);
-        return null;
-    }
-}
+const fallbackQuotes = [
+    { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { quote: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+    { quote: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+    { quote: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+    { quote: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein" },
+    { quote: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
+    { quote: "Do what you can, with what you have, where you are.", author: "Theodore Roosevelt" },
+    { quote: "Everything you've ever wanted is on the other side of fear.", author: "George Addair" },
+    { quote: "Success is not how high you have climbed, but how you make a positive difference to the world.", author: "Roy T. Bennett" }
+];
 
 async function getQuoteFromQuotable() {
     try {
@@ -24,32 +25,14 @@ async function getQuoteFromQuotable() {
     }
 }
 
-async function getQuoteFromZenQuotes() {
-    try {
-        const response = await fetch('https://zenquotes.io/api/random');
-        const data = await response.json();
-        return { quote: data[0].q, author: data[0].a };
-    } catch (error) {
-        console.error('Error fetching quote from ZenQuotes:', error);
-        return null;
-    }
-}
-
 async function getRandomQuote() {
-    const quotePromises = [
-        getQuoteFromTypeFit(),
-        getQuoteFromQuotable(),
-        getQuoteFromZenQuotes()
-    ];
-    
-    const quotes = await Promise.all(quotePromises);
-    const validQuotes = quotes.filter(quote => quote !== null);
-
-    if (validQuotes.length === 0) {
-        return { quote: "Failed to fetch quotes. Please try again later.", author: "" };
+    const quote = await getQuoteFromQuotable();
+    if (quote) {
+        return quote;
+    } else {
+        // Fallback to local quotes if API fails
+        return fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
     }
-
-    return validQuotes[Math.floor(Math.random() * validQuotes.length)];
 }
 
 async function updateQuote() {
