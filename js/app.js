@@ -15,7 +15,7 @@ async function getQuoteFromRealInspire() {
     try {
         const response = await fetch('https://api.realinspire.tech/v1/quotes/random');
         const data = await response.json();
-        return { quote: data.quote, author: data.author };
+        return { quote: data.content, author: data.author };
     } catch (error) {
         console.error('Error fetching quote from Real Inspire:', error);
         return null;
@@ -29,38 +29,6 @@ async function getQuoteFromZenQuotes() {
         return { quote: data[0].q, author: data[0].a };
     } catch (error) {
         console.error('Error fetching quote from Zen Quotes:', error);
-        return null;
-    }
-}
-
-async function getQuoteFromQuotable(retries = 3) {
-    const timeout = 5000; // 5 seconds timeout
-    try {
-        const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), timeout);
-        const response = await fetch('https://api.quotable.io/quotes/random', {
-            signal: controller.signal
-        });
-        clearTimeout(id);
-        const data = await response.json();
-        return { quote: data[0].content, author: data[0].author };
-    } catch (error) {
-        console.error(`Error fetching quote from Quotable (attempt ${4 - retries}/3):`, error);
-        if (retries > 0) {
-            return getQuoteFromQuotable(retries - 1);
-        }
-        return null;
-    }
-}
-
-async function getQuoteFromTypeFit() {
-    try {
-        const response = await fetch('https://type.fit/api/quotes');
-        const data = await response.json();
-        const randomQuote = data[Math.floor(Math.random() * data.length)];
-        return { quote: randomQuote.text, author: randomQuote.author || 'Unknown' };
-    } catch (error) {
-        console.error('Error fetching quote from Type.fit:', error);
         return null;
     }
 }
@@ -93,9 +61,7 @@ async function getRandomQuote() {
 
     const apiCalls = [
         getQuoteFromRealInspire(),
-        getQuoteFromZenQuotes(),
-        getQuoteFromQuotable(),
-        getQuoteFromTypeFit()
+        getQuoteFromZenQuotes()
     ];
 
     const results = await Promise.all(apiCalls);
