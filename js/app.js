@@ -33,26 +33,22 @@ async function getQuoteFromZenQuotes() {
     }
 }
 
-async function getQuoteFromQuotable() {
+async function getQuoteFromQuotable(retries = 3) {
+    const timeout = 5000; // 5 seconds timeout
     try {
-        const response = await fetch('https://api.quotable.io/quotes/random');
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        const response = await fetch('https://api.quotable.io/quotes/random', {
+            signal: controller.signal
+        });
+        clearTimeout(id);
         const data = await response.json();
         return { quote: data[0].content, author: data[0].author };
     } catch (error) {
-        console.error('Error fetching quote from Quotable:', error);
-        return null;
-    }
-}
-
-async function getQuoteFromApiNinjas() {
-    try {
-        const response = await fetch('https://api.api-ninjas.com/v1/quotes?category=inspirational', {
-            headers: { 'X-Api-Key': 'YOUR_API_NINJAS_KEY' }
-        });
-        const data = await response.json();
-        return { quote: data[0].quote, author: data[0].author };
-    } catch (error) {
-        console.error('Error fetching quote from API Ninjas:', error);
+        console.error(`Error fetching quote from Quotable (attempt ${4 - retries}/3):`, error);
+        if (retries > 0) {
+            return getQuoteFromQuotable(retries - 1);
+        }
         return null;
     }
 }
